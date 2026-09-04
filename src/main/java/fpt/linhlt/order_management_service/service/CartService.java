@@ -1,7 +1,11 @@
 package fpt.linhlt.order_management_service.service;
 
-import fpt.linhlt.order_management_service.dto.response.CartResponse;
+import fpt.linhlt.order_management_service.dto.request.AddToCartRequest;
+import fpt.linhlt.order_management_service.dto.response.CartItemResponse;
+
+import java.util.List;
 
 public interface CartService {
-    CartResponse getCartByUserId(Long userId);
+    List<CartItemResponse> addtoCart(AddToCartRequest request);
+    List<CartItemResponse> getCartItems();
 }

@@ -1,12 +1,13 @@
 package fpt.linhlt.order_management_service.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Getter
-@Builder
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductVariantResponse {
     private Long id;
     private Long productId;

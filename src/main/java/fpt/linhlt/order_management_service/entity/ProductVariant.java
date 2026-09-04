@@ -1,11 +1,17 @@
 package fpt.linhlt.order_management_service.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "product_variants")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProductVariant extends BaseEntity{
 
     @Id
