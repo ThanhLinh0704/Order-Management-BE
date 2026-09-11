@@ -10,21 +10,22 @@ import java.util.List;
 @Table(name = "products")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class Product extends BaseEntity{
+public class Product extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @Builder.Default
+    @Column(name = "status", nullable = false)
+    private String status = "ACTIVE";
+
+    @Builder.Default
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<ProductVariant> variants = new ArrayList<>();
 }

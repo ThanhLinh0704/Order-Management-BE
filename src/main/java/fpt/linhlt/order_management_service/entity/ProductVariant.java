@@ -2,6 +2,8 @@ package fpt.linhlt.order_management_service.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 
@@ -12,25 +14,26 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductVariant extends BaseEntity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ProductVariant extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(name = "sku")
+    @Column(name = "sku", nullable = false, unique = true)
     private String sku;
 
-    @Column(name = "color")
-    private String color;
+    @Column(name = "variant_name", nullable = false)
+    private String variantName;
 
-    @Column(name = "size")
-    private String size;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "attributes", columnDefinition = "JSON")
+    private String attributes;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false, precision = 15, scale = 2)
     private BigDecimal price;
+
+    @Builder.Default
+    @Column(name = "status", nullable = false, length = 20)
+    private String status = "ACTIVE";
 }

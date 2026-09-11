@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductResponse {
-    private Long id;
+    private String id;
     private String name;
     private String description;
     private List<ProductVariantResponse> variants;

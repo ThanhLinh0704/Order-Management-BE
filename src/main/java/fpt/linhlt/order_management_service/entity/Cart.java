@@ -10,18 +10,16 @@ import java.util.List;
 @Table(name = "carts")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class Cart extends BaseEntity{
+public class Cart extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private User user;
 
-    @Column(name = "userId")
-    private Long userId;
-
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    @OneToMany(mappedBy = "cart", fetch = FetchType.LAZY)
     private List<CartItem> items = new ArrayList<>();
 }

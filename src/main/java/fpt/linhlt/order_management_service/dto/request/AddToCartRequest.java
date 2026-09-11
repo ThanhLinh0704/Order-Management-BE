@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddToCartRequest {
-    private Long productVariantId;
+    private String productVariantId;
     private Integer quantity;
 }

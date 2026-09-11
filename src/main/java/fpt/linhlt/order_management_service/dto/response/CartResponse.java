@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartResponse {
-    private Long cartId;
-    private Long userId;
+    private String cartId;
+    private String userId;
     private List<CartItemResponse> items;
 }

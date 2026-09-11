@@ -1,8 +1,6 @@
 package fpt.linhlt.order_management_service.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
@@ -19,6 +17,11 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", nullable = false)
+    private String id;
+
     @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createAt;
@@ -28,14 +31,14 @@ public class BaseEntity {
     private String createBy;
 
     @LastModifiedDate
-    @Column(name = "update_at")
+    @Column(name = "updated_at")
     private LocalDateTime updateAt;
 
     @LastModifiedBy
-    @Column(name = "update_by")
+    @Column(name = "updated_by")
     private String updateBy;
 
     @Column(name = "deleted")
-    private boolean deleted;
+    private boolean deleted = false;
 
 }

@@ -16,7 +16,7 @@ public class JpaAuditingConfig {
     @Bean
     public AuditorAware<String> auditorProvider() {
         return () -> {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();//Tim hieu cach hoat dong
             if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
                 return Optional.of("SYSTEM");
             }

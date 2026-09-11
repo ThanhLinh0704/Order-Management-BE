@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductVariantResponse {
-    private Long id;
-    private Long productId;
+    private String id;
+    private String productId;
     private String productName;
     private String sku;
     private String color;

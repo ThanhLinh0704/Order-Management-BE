@@ -28,7 +28,7 @@ public class ProductVariantServiceImpl implements ProductVariantService {
     }
 
     @Override
-    public ProductVariantResponse getProductVariantById(Long productVariantId) {
+    public ProductVariantResponse getProductVariantById(String productVariantId) {
         return null;
     }
 }

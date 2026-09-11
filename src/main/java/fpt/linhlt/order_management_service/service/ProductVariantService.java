@@ -8,5 +8,5 @@ import java.util.List;
 public interface ProductVariantService {
     ProductVariantResponse createProductVariant(CreateProductVariantRequest request);
     List<ProductVariantResponse> getAllProductVariants();
-    ProductVariantResponse getProductVariantById(Long productVariantId);
+    ProductVariantResponse getProductVariantById(String productVariantId);
 }
