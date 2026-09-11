@@ -1,8 +1,12 @@
 package fpt.linhlt.order_management_service.dto.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -13,7 +17,7 @@ public class ProductVariantResponse {
     private String productId;
     private String productName;
     private String sku;
-    private String color;
-    private String size;
+    private String variantName;
+    private Map<String, Object> attributes;
     private BigDecimal price;
 }

@@ -33,16 +33,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(
-            UserRepository userRepository
-    ) {
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
         return email -> {
             var user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Thông tin đăng nhập không hợp lệ"));
-
-            boolean disabled = user.isDeleted()
-                    || !"ACTIVE".equals(user.getStatus())
-                    || user.getRole().isDeleted();
-
+            boolean disabled = user.isDeleted() || !"ACTIVE".equals(user.getStatus()) || user.getRole().isDeleted();
             return User.withUsername(user.getId())
                     .password(user.getPasswordHash())
                     .roles(user.getRole().getCode())
@@ -52,39 +46,24 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            UserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder
-    ) {
-        DaoAuthenticationProvider provider =
-                new DaoAuthenticationProvider(userDetailsService);
-
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
-
         return new ProviderManager(provider);
     }
 
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter authoritiesConverter =
-                new JwtGrantedAuthoritiesConverter();
-
+        JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
         authoritiesConverter.setAuthoritiesClaimName("roles");
         authoritiesConverter.setAuthorityPrefix("ROLE_");
-
-        JwtAuthenticationConverter converter =
-                new JwtAuthenticationConverter();
-
-        converter.setJwtGrantedAuthoritiesConverter(
-                authoritiesConverter
-        );
-
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        converter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
         return converter;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(
-            HttpSecurity http,
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
             JwtAuthenticationConverter jwtAuthenticationConverter
     ) throws Exception {
         http
@@ -103,25 +82,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.ERROR)
                         .permitAll()
-
-                        .requestMatchers(
-                                HttpMethod.POST,
-                                "/api/v1/auth/login"
-                        ).permitAll()
-
-                        .requestMatchers(
-                                HttpMethod.POST,
-                                "/api/v1/users"
-                        ).hasRole("ADMIN")
-
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/products").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
 
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(jwt -> jwt
-                                .jwtAuthenticationConverter(
-                                        jwtAuthenticationConverter
-                                )
+                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)
                         )
                 );
 

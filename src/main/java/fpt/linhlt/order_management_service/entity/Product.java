@@ -26,6 +26,6 @@ public class Product extends BaseEntity {
     private String status = "ACTIVE";
 
     @Builder.Default
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<ProductVariant> variants = new ArrayList<>();
 }

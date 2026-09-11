@@ -6,6 +6,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Entity
 @Table(name = "product_variants")
@@ -28,7 +29,7 @@ public class ProductVariant extends BaseEntity {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "attributes", columnDefinition = "JSON")
-    private String attributes;
+    private Map<String, Object> attributes;
 
     @Column(name = "price", nullable = false, precision = 15, scale = 2)
     private BigDecimal price;

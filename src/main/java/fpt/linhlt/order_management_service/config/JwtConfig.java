@@ -10,10 +10,7 @@ import org.springframework.security.oauth2.jwt.*;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.Base64;
-import java.util.List;
-import java.util.Objects;
 
 @Configuration
 public class JwtConfig {
@@ -38,23 +35,9 @@ public class JwtConfig {
                 .withSecretKey(jwtSecretKey)
                 .macAlgorithm(MacAlgorithm.HS256)
                 .build();
-
         decoder.setJwtValidator(
                 new DelegatingOAuth2TokenValidator<Jwt>(
-                        new JwtTimestampValidator(Duration.ZERO),
-                        new JwtClaimValidator<List<String>>(
-                                "aud",
-                                audiences -> audiences != null
-                        ),
-                        new JwtClaimValidator<String>(
-                                "sub",
-                                subject -> subject != null
-                                        && !subject.isBlank()
-                        ),
-                        new JwtClaimValidator<Instant>(
-                                "exp",
-                                Objects::nonNull
-                        )
+                        new JwtTimestampValidator(Duration.ZERO)
                 )
         );
 

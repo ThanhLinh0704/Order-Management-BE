@@ -1,21 +1,16 @@
 package fpt.linhlt.order_management_service.dto.request;
 
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateProductVariantRequest {
-
-    private String sku;
-    private String variantName;
-    private Map<String, Object> attributes;
-    private BigDecimal price;
+public class UpdateCartItemQuantityRequest {
+    @Min(value = 1, message = "Số lượng phải lớn hơn 0")
+    private Integer quantity;
 }

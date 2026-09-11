@@ -11,6 +11,6 @@ import java.util.List;
 public class CreateProductRequest {
 
     private String name;
-    private String desciption;
+    private String description;
     private List<CreateProductVariantRequest> variants;
 }
