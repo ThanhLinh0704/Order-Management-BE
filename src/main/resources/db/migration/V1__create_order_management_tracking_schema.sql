@@ -3,10 +3,10 @@
 -- Database Schema - Aligned with latest DBML baseline
 -- Target DBMS: MySQL 8.0+
 --
--- Tables in this baseline: 17
+-- Tables in this baseline: 18
 -- UUID policy: application generates UUID values and stores them as VARCHAR(36).
 --
--- Mandatory columns in every table:
+-- Mandatory columns in business tables (invalidated_token is excluded):
 --   id, created_at, created_by, updated_at, updated_by, deleted
 -- ============================================================================
 
@@ -544,6 +544,18 @@ CREATE TABLE notifications (
 CREATE INDEX idx_notifications_order_id ON notifications(order_id);
 CREATE INDEX idx_notifications_delivery_schedule_deleted
     ON notifications(delivery_status, scheduled_at, deleted);
+
+
+-- ============================================================================
+-- 20. INVALIDATED TOKENS
+-- JWT IDs revoked on logout; this entity does not extend BaseEntity.
+-- ============================================================================
+CREATE TABLE invalidated_token (
+    id          VARCHAR(255) NOT NULL,
+    expiry_time DATETIME(6)  NULL,
+
+    CONSTRAINT pk_invalidated_token PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 -- ============================================================================

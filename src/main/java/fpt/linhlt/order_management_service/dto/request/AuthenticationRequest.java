@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LoginRequest {
+public class AuthenticationRequest {
 
     @NotBlank(message = "Email không được để trống")
     @Email(message = "Email không hợp lệ")

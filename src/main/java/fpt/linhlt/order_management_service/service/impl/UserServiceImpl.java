@@ -4,12 +4,15 @@ import fpt.linhlt.order_management_service.dto.request.CreateUserRequest;
 import fpt.linhlt.order_management_service.dto.response.UserResponse;
 import fpt.linhlt.order_management_service.entity.Role;
 import fpt.linhlt.order_management_service.entity.User;
+import fpt.linhlt.order_management_service.exception.AppException;
+import fpt.linhlt.order_management_service.exception.ErrorCode;
 import fpt.linhlt.order_management_service.mapper.UserMapper;
 import fpt.linhlt.order_management_service.repository.RoleRepository;
 import fpt.linhlt.order_management_service.repository.UserRepository;
 import fpt.linhlt.order_management_service.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +32,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse createUser(CreateUserRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email đã được sử dụng");
+            throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
 
         Role role = roleRepository.findByCode(request.getRoleCode())
@@ -44,6 +47,13 @@ public class UserServiceImpl implements UserService {
                 .status("ACTIVE")
                 .build();
         return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    public UserResponse getMyInformation() {
+        var context = SecurityContextHolder.getContext();
+        String email = context.getAuthentication().getName();
+        User user = userRepository.findByEmail(email);
+        return userMapper.toUserResponse(user);
     }
 
 }
